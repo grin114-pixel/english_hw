@@ -69,7 +69,7 @@ export default function HomeworkSelectorModal({
       })
 
     const custom = customIds.map((id) => ({
-      source_item_id: null as const,
+      source_item_id: null,
       content: (draft[id] ?? '').trimEnd(),
     }))
 
@@ -245,7 +245,7 @@ export default function HomeworkSelectorModal({
             >
               {allItems
                 .filter(({ item }) => selected.has(item.id))
-                .map(({ card, item }, idx, arr) => {
+                .map(({ card, item }) => {
                   const key = item.id
                   const value = draft[key] ?? item.content
                   return (
