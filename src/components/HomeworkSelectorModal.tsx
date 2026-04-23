@@ -206,11 +206,14 @@ export default function HomeworkSelectorModal({
         {/* 선택한 항목 — 목록 아래에 바로 이어짐 */}
         {hasSelection && (
           <div
-            className="mt-2 pt-4 pb-2"
-            style={{ borderTop: '1px solid #e8e0f7' }}
+            className="mt-3 pt-4 pb-4 -mx-4 px-4"
+            style={{
+              borderTop: '1px solid #e8e0f7',
+              background: 'linear-gradient(135deg, #ddf4ee 0%, #fdf6d3 100%)',
+            }}
           >
             <div className="flex items-center justify-between mb-2">
-              <p className="text-xs font-semibold" style={{ color: '#a99cd4' }}>
+              <p className="text-xs font-bold" style={{ color: '#0f766e' }}>
                 선택한 항목
               </p>
               <div className="flex items-center gap-2">
@@ -218,7 +221,7 @@ export default function HomeworkSelectorModal({
                   type="button"
                   onClick={addCustomItem}
                   className="text-xs hover:opacity-70 transition-opacity inline-flex items-center gap-1"
-                  style={{ color: '#a99cd4' }}
+                  style={{ color: '#0f766e' }}
                 >
                   <Plus size={12} />
                   직접 추가
@@ -232,7 +235,7 @@ export default function HomeworkSelectorModal({
                     setFocusCustomId(null)
                   }}
                   className="text-xs hover:opacity-70 transition-opacity"
-                  style={{ color: '#a99cd4' }}
+                  style={{ color: '#0f766e' }}
                 >
                   전체 해제
                 </button>
@@ -241,7 +244,11 @@ export default function HomeworkSelectorModal({
 
             <div
               className="rounded-2xl border overflow-hidden mb-4"
-              style={{ borderColor: '#e8e0f7', backgroundColor: '#ffffff' }}
+              style={{
+                borderColor: '#7dd3c7',
+                backgroundColor: 'rgba(255,255,255,0.92)',
+                boxShadow: '0 10px 30px rgba(15, 118, 110, 0.18)',
+              }}
             >
               {allItems
                 .filter(({ item }) => selected.has(item.id))
