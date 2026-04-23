@@ -95,7 +95,30 @@ export default function App() {
   }
 
   const handleCreateHomework = async (selectedItems: { source_item_id: string | null; content: string }[]) => {
-    const selected = selectedItems.filter((i) => i.content.trim() !== '')
+    const selected = selectedItems
+      .map((i, index) => ({ ...i, content: i.content.trim(), index }))
+      .filter((i) => i.content !== '')
+
+    // 같은 "종류"끼리 붙이기: 앞 단어(예: '아써')를 기준으로 첫 등장 그룹 순서대로 묶음
+    const groupKeyOf = (content: string) => {
+      const s = content.trim()
+      const first = s.split(/\s+/)[0] ?? ''
+      return first.toLowerCase()
+    }
+    const groupFirstIndex = new Map<string, number>()
+    for (const it of selected) {
+      const key = groupKeyOf(it.content)
+      if (!groupFirstIndex.has(key)) groupFirstIndex.set(key, it.index)
+    }
+    const grouped = [...selected].sort((a, b) => {
+      const ka = groupKeyOf(a.content)
+      const kb = groupKeyOf(b.content)
+      const ga = groupFirstIndex.get(ka) ?? a.index
+      const gb = groupFirstIndex.get(kb) ?? b.index
+      if (ga !== gb) return ga - gb
+      if (ka !== kb) return ka.localeCompare(kb)
+      return a.index - b.index
+    })
 
     const cardId = uuidv4()
     const now = new Date().toISOString()
@@ -106,7 +129,7 @@ export default function App() {
       type: 'homework',
       date: today,
       created_at: now,
-      items: selected.map((item, idx) => ({
+      items: grouped.map((item, idx) => ({
         id: uuidv4(),
         card_id: cardId,
         content: item.content,
