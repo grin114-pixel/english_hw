@@ -50,23 +50,23 @@ export default function HomeworkCard({
     <div
       className="rounded-2xl p-4 mb-6 transition-all duration-200"
       style={{
-        background: 'linear-gradient(135deg, #e4c8ff 0%, #b8e0ff 42%, #ffc8e8 100%)',
-        border: '2px solid #a855f7',
+        background: 'linear-gradient(135deg, #ddf4ee 0%, #fdf6d3 100%)',
+        border: '2px solid #7dd3c7',
         boxShadow:
-          '0 8px 32px rgba(139, 92, 246, 0.35), 0 0 0 1px rgba(255,255,255,0.5) inset',
+          '0 8px 32px rgba(15, 118, 110, 0.22), 0 0 0 1px rgba(255,255,255,0.55) inset',
       }}
     >
       <div className="flex items-center justify-between gap-2 flex-wrap mb-3">
         <div className="flex items-center gap-2 flex-wrap min-w-0">
           <div className="flex items-center gap-1.5">
-            <Star size={14} fill="#9333ea" style={{ color: '#7c3aed' }} />
-            <span className="text-sm font-bold" style={{ color: '#5b21b6' }}>
+            <Star size={14} fill="#14b8a6" style={{ color: '#0f766e' }} />
+            <span className="text-sm font-bold" style={{ color: '#0f766e' }}>
               오늘의 숙제
             </span>
           </div>
           <span
             className="text-xs px-2 py-0.5 rounded-full font-semibold shrink-0"
-            style={{ backgroundColor: 'rgba(255,255,255,0.85)', color: '#6d28d9' }}
+            style={{ backgroundColor: 'rgba(255,255,255,0.85)', color: '#0f766e' }}
           >
             {formatDateNoYear(card.date)}
           </span>
@@ -102,7 +102,7 @@ export default function HomeworkCard({
             className="h-full rounded-full transition-all duration-500"
             style={{
               width: `${(doneCount / totalCount) * 100}%`,
-              background: 'linear-gradient(90deg, #a855f7, #6366f1)',
+              background: 'linear-gradient(90deg, #14b8a6, #f4d06f)',
             }}
           />
         </div>

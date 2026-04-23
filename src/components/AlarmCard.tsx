@@ -57,14 +57,15 @@ export default function AlarmCard({
     <div
       className="rounded-2xl shadow-sm border px-4 pb-4 mb-6 transition-all duration-200 overflow-hidden"
       style={{
-        backgroundColor: '#ffffff',
-        borderColor: '#e8e0f7',
-        boxShadow: '0 2px 12px rgba(167, 154, 212, 0.12)',
+        background: 'linear-gradient(135deg, #f3eaff 0%, #eaf4ff 42%, #ffeaf5 100%)',
+        border: '2px solid #d8b4fe',
+        boxShadow:
+          '0 8px 28px rgba(139, 92, 246, 0.16), 0 0 0 1px rgba(255,255,255,0.6) inset',
       }}
     >
       <div
         className="flex items-center justify-between -mx-4 px-4 py-2 mb-3"
-        style={{ backgroundColor: '#f0ebfa' }}
+        style={{ backgroundColor: 'rgba(216, 180, 254, 0.35)' }}
       >
         <div className="flex items-center gap-2">
           {editingDate ? (

@@ -15,6 +15,16 @@ export default function App() {
   const [showNewAlarm, setShowNewAlarm] = useState(false)
   const [showHomeworkSelector, setShowHomeworkSelector] = useState(false)
 
+  const scrollToTop = () => {
+    try {
+      window.requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      })
+    } catch {
+      window.scrollTo(0, 0)
+    }
+  }
+
   const fetchCards = useCallback(async () => {
     const { data: cardData, error: cardError } = await supabase
       .from('cards')
@@ -142,6 +152,7 @@ export default function App() {
 
     setCards((prev) => [...prev, newCard])
     setShowHomeworkSelector(false)
+    scrollToTop()
 
     const { error: cardError } = await supabase
       .from('cards')
@@ -329,9 +340,9 @@ export default function App() {
           onClick={() => setShowHomeworkSelector(true)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 hover:opacity-80 active:scale-[0.97]"
           style={{
-            background: 'linear-gradient(135deg, #d4b8f0, #b8c8f0)',
+            background: 'linear-gradient(135deg, #14b8a6, #f4d06f)',
             color: '#ffffff',
-            boxShadow: '0 2px 8px rgba(169, 156, 212, 0.35)',
+            boxShadow: '0 2px 10px rgba(15, 118, 110, 0.25)',
           }}
         >
           <Plus size={13} strokeWidth={2.5} />
