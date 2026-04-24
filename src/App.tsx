@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Plus, BookOpen } from 'lucide-react'
 import { format } from 'date-fns'
 import { supabase } from './lib/supabase'
@@ -10,6 +11,7 @@ import NewAlarmModal from './components/NewAlarmModal'
 import HomeworkSelectorModal from './components/HomeworkSelectorModal'
 
 export default function App() {
+  const navigate = useNavigate()
   const [cards, setCards] = useState<Card[]>([])
   const [loading, setLoading] = useState(true)
   const [showNewAlarm, setShowNewAlarm] = useState(false)
@@ -367,6 +369,18 @@ export default function App() {
         >
           <Plus size={13} strokeWidth={2.5} />
           오늘의 숙제
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate('/kids')}
+          className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 hover:opacity-80 active:scale-[0.97]"
+          style={{
+            backgroundColor: '#ccfbf1',
+            color: '#0f766e',
+            border: '1.5px solid #99f6e4',
+          }}
+        >
+          연서 🎒
         </button>
       </header>
 
