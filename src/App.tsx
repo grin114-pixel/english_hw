@@ -296,13 +296,19 @@ export default function App() {
     const prevCard = cards.find((c) => c.id === cardId)
     const updatedItems: CardItem[] = newItems.map((item, idx) => {
       const prevItem = prevCard?.items.find((i) => i.id === item.id)
+      const prevContent = (prevItem?.content ?? '').trimEnd()
+      const nextContent = item.content.trimEnd()
+      const shouldUnlink =
+        prevCard?.type === 'homework' &&
+        !!prevItem?.source_item_id &&
+        prevContent !== nextContent
       return {
         id: item.id,
         card_id: cardId,
         content: item.content,
         is_checked: prevItem?.is_checked ?? false,
         order_index: idx,
-        source_item_id: prevItem?.source_item_id ?? null,
+        source_item_id: shouldUnlink ? null : (prevItem?.source_item_id ?? null),
         created_at: prevItem?.created_at ?? now,
       }
     })
