@@ -263,14 +263,28 @@ export default function App() {
   }
 
   const handleUpdateItem = async (cardId: string, itemId: string, content: string) => {
+    const card = cards.find((c) => c.id === cardId)
+    const item = card?.items.find((i) => i.id === itemId)
+    const shouldUnlink = card?.type === 'homework' && !!item?.source_item_id
+
     setCards((prev) =>
       prev.map((c) =>
         c.id === cardId
-          ? { ...c, items: c.items.map((i) => (i.id === itemId ? { ...i, content } : i)) }
+          ? {
+              ...c,
+              items: c.items.map((i) =>
+                i.id === itemId
+                  ? { ...i, content, ...(shouldUnlink ? { source_item_id: null } : {}) }
+                  : i
+              ),
+            }
           : c
       )
     )
-    await supabase.from('items').update({ content }).eq('id', itemId)
+    await supabase
+      .from('items')
+      .update({ content, ...(shouldUnlink ? { source_item_id: null } : {}) })
+      .eq('id', itemId)
   }
 
   const handleUpdateCard = async (
