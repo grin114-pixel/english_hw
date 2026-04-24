@@ -380,7 +380,7 @@ export default function App() {
             border: '1.5px solid #99f6e4',
           }}
         >
-          연서 🎒
+          연서
         </button>
       </header>
 
