@@ -32,23 +32,16 @@ export default function AlarmCard({
   onDelete,
   onToggleItem,
   onUpdateDate,
-  onAddItem,
   onDeleteItem,
   onUpdateItem,
   onUpdateCard,
 }: AlarmCardProps) {
   const [editingDate, setEditingDate] = useState(false)
-  const [focusedItemIndex, setFocusedItemIndex] = useState<number | null>(null)
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
   const handleSlashDateChange = (iso: string) => {
     onUpdateDate(card.id, iso)
-  }
-
-  const handleAddItem = (afterIndex: number) => {
-    onAddItem(card.id, '', afterIndex)
-    setFocusedItemIndex(afterIndex + 1)
   }
 
   const sortedItems = [...card.items].sort((a, b) => a.order_index - b.order_index)
@@ -113,11 +106,7 @@ export default function AlarmCard({
             key={item.id}
             item={item}
             onToggle={(itemId, checked) => onToggleItem(card.id, itemId, checked)}
-            onContentChange={(itemId, content) => onUpdateItem(card.id, itemId, content)}
-            onDelete={(itemId) => onDeleteItem(card.id, itemId)}
-            onAddNext={() => handleAddItem(index)}
-            editable={true}
-            autoFocus={focusedItemIndex === index}
+            editable={false}
           />
         ))}
       </div>

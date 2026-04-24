@@ -30,7 +30,6 @@ export default function HomeworkCard({
   onToggleItem,
   onDelete,
   onUpdateCard,
-  onAddItem,
   onDeleteItem,
   onUpdateItem,
 }: HomeworkCardProps) {
@@ -39,12 +38,6 @@ export default function HomeworkCard({
   const totalCount = sortedItems.length
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-  const [focusedItemIndex, setFocusedItemIndex] = useState<number | null>(null)
-
-  const handleAddItem = (afterIndex: number) => {
-    onAddItem(card.id, '', afterIndex)
-    setFocusedItemIndex(afterIndex + 1)
-  }
 
   return (
     <div
@@ -109,16 +102,12 @@ export default function HomeworkCard({
       )}
 
       <div className="space-y-0.5">
-        {sortedItems.map((item: CardItem, index: number) => (
+        {sortedItems.map((item: CardItem) => (
           <CheckboxItem
             key={item.id}
             item={item}
             onToggle={(itemId, checked) => onToggleItem(card.id, itemId, checked)}
-            onContentChange={(itemId, content) => onUpdateItem(card.id, itemId, content)}
-            onDelete={(itemId) => onDeleteItem(card.id, itemId)}
-            onAddNext={() => handleAddItem(index)}
-            editable={true}
-            autoFocus={focusedItemIndex === index}
+            editable={false}
             tag={
               item.source_item_id
                 ? undefined
@@ -129,15 +118,6 @@ export default function HomeworkCard({
           />
         ))}
       </div>
-
-      <button
-        type="button"
-        onClick={() => handleAddItem(sortedItems.length > 0 ? sortedItems.length - 1 : -1)}
-        className="mt-2 text-xs hover:opacity-80 transition-opacity w-full text-left py-1"
-        style={{ color: 'rgba(91, 33, 182, 0.85)' }}
-      >
-        + 항목 추가
-      </button>
 
       {showEditModal && (
         <EditAlarmModal
