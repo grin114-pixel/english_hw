@@ -33,6 +33,10 @@ export default function KidsPage() {
   }, [])
 
   useEffect(() => {
+    const manifestEl = document.querySelector<HTMLLinkElement>('#pwa-manifest')
+    const prevHref = manifestEl?.getAttribute('href') ?? null
+    if (manifestEl) manifestEl.setAttribute('href', '/manifest-kids.webmanifest')
+
     fetchCards()
 
     const channel = supabase
@@ -45,7 +49,11 @@ export default function KidsPage() {
       })
       .subscribe()
 
-    return () => { supabase.removeChannel(channel) }
+    return () => {
+      supabase.removeChannel(channel)
+      if (manifestEl && prevHref) manifestEl.setAttribute('href', prevHref)
+      if (manifestEl && prevHref === null) manifestEl.removeAttribute('href')
+    }
   }, [fetchCards])
 
   const handleToggleItem = async (cardId: string, itemId: string, checked: boolean) => {

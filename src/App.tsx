@@ -17,6 +17,11 @@ export default function App() {
   const [showNewAlarm, setShowNewAlarm] = useState(false)
   const [showHomeworkSelector, setShowHomeworkSelector] = useState(false)
 
+  useEffect(() => {
+    const manifestEl = document.querySelector<HTMLLinkElement>('#pwa-manifest')
+    if (manifestEl) manifestEl.setAttribute('href', '/manifest.webmanifest')
+  }, [])
+
   const scrollToTop = () => {
     try {
       window.requestAnimationFrame(() => {
