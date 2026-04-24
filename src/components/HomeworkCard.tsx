@@ -11,9 +11,6 @@ interface HomeworkCardProps {
   onToggleItem: (cardId: string, itemId: string, checked: boolean) => void
   onDelete: (id: string) => void
   onUpdateCard: (cardId: string, date: string, items: { id: string; content: string }[]) => void
-  onAddItem: (cardId: string, content: string, afterIndex: number) => void
-  onDeleteItem: (cardId: string, itemId: string) => void
-  onUpdateItem: (cardId: string, itemId: string, content: string) => void
 }
 
 function formatDateNoYear(dateStr: string): string {
@@ -30,8 +27,6 @@ export default function HomeworkCard({
   onToggleItem,
   onDelete,
   onUpdateCard,
-  onDeleteItem,
-  onUpdateItem,
 }: HomeworkCardProps) {
   const sortedItems = [...card.items].sort((a, b) => a.order_index - b.order_index)
   const doneCount = sortedItems.filter((i) => i.is_checked).length

@@ -12,9 +12,6 @@ interface AlarmCardProps {
   onDelete: (id: string) => void
   onToggleItem: (cardId: string, itemId: string, checked: boolean) => void
   onUpdateDate: (cardId: string, date: string) => void
-  onAddItem: (cardId: string, content: string, afterIndex: number) => void
-  onDeleteItem: (cardId: string, itemId: string) => void
-  onUpdateItem: (cardId: string, itemId: string, content: string) => void
   onUpdateCard: (cardId: string, date: string, items: { id: string; content: string }[]) => void
 }
 
@@ -32,8 +29,6 @@ export default function AlarmCard({
   onDelete,
   onToggleItem,
   onUpdateDate,
-  onDeleteItem,
-  onUpdateItem,
   onUpdateCard,
 }: AlarmCardProps) {
   const [editingDate, setEditingDate] = useState(false)
@@ -101,7 +96,7 @@ export default function AlarmCard({
       </div>
 
       <div className="space-y-0.5">
-        {sortedItems.map((item: CardItem, index: number) => (
+        {sortedItems.map((item: CardItem) => (
           <CheckboxItem
             key={item.id}
             item={item}

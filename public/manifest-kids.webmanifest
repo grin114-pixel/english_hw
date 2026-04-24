@@ -6,6 +6,7 @@
   "background_color": "#f0fdf8",
   "display": "standalone",
   "orientation": "portrait",
+  "scope": "/kids/",
   "start_url": "/kids",
   "icons": [
     { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },

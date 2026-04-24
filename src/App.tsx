@@ -17,11 +17,6 @@ export default function App() {
   const [showNewAlarm, setShowNewAlarm] = useState(false)
   const [showHomeworkSelector, setShowHomeworkSelector] = useState(false)
 
-  useEffect(() => {
-    const manifestEl = document.querySelector<HTMLLinkElement>('#pwa-manifest')
-    if (manifestEl) manifestEl.setAttribute('href', '/manifest.webmanifest')
-  }, [])
-
   const scrollToTop = () => {
     try {
       window.requestAnimationFrame(() => {
@@ -216,84 +211,6 @@ export default function App() {
     await supabase.from('cards').update({ date }).eq('id', cardId)
   }
 
-  const handleAddItem = async (cardId: string, content: string, afterIndex: number) => {
-    const card = cards.find((c) => c.id === cardId)
-    if (!card) return
-
-    const sortedItems = [...card.items].sort((a, b) => a.order_index - b.order_index)
-    const newIndex = afterIndex + 1
-    const now = new Date().toISOString()
-
-    const reindexed = sortedItems.map((item, idx) => ({
-      ...item,
-      order_index: idx >= newIndex ? idx + 1 : idx,
-    }))
-
-    const newItem: CardItem = {
-      id: uuidv4(),
-      card_id: cardId,
-      content,
-      is_checked: false,
-      order_index: newIndex,
-      source_item_id: null,
-      created_at: now,
-    }
-
-    const updatedItems = [...reindexed.slice(0, newIndex), newItem, ...reindexed.slice(newIndex)]
-
-    setCards((prev) =>
-      prev.map((c) => (c.id === cardId ? { ...c, items: updatedItems } : c))
-    )
-
-    await supabase.from('items').insert({
-      id: newItem.id,
-      card_id: cardId,
-      content,
-      is_checked: false,
-      order_index: newIndex,
-      source_item_id: null,
-      created_at: now,
-    })
-
-    for (const item of reindexed.filter((_, idx) => idx >= newIndex)) {
-      await supabase.from('items').update({ order_index: item.order_index }).eq('id', item.id)
-    }
-  }
-
-  const handleDeleteItem = async (cardId: string, itemId: string) => {
-    setCards((prev) =>
-      prev.map((c) =>
-        c.id === cardId ? { ...c, items: c.items.filter((i) => i.id !== itemId) } : c
-      )
-    )
-    await supabase.from('items').delete().eq('id', itemId)
-  }
-
-  const handleUpdateItem = async (cardId: string, itemId: string, content: string) => {
-    const card = cards.find((c) => c.id === cardId)
-    const item = card?.items.find((i) => i.id === itemId)
-    const shouldUnlink = card?.type === 'homework' && !!item?.source_item_id
-
-    setCards((prev) =>
-      prev.map((c) =>
-        c.id === cardId
-          ? {
-              ...c,
-              items: c.items.map((i) =>
-                i.id === itemId
-                  ? { ...i, content, ...(shouldUnlink ? { source_item_id: null } : {}) }
-                  : i
-              ),
-            }
-          : c
-      )
-    )
-    await supabase
-      .from('items')
-      .update({ content, ...(shouldUnlink ? { source_item_id: null } : {}) })
-      .eq('id', itemId)
-  }
-
   const handleUpdateCard = async (
     cardId: string,
     date: string,
@@ -407,9 +324,6 @@ export default function App() {
                 onToggleItem={handleToggleItem}
                 onDelete={handleDeleteCard}
                 onUpdateCard={handleUpdateCard}
-                onAddItem={handleAddItem}
-                onDeleteItem={handleDeleteItem}
-                onUpdateItem={handleUpdateItem}
               />
             ))}
 
@@ -438,9 +352,6 @@ export default function App() {
                   onDelete={handleDeleteCard}
                   onToggleItem={handleToggleItem}
                   onUpdateDate={handleUpdateDate}
-                  onAddItem={handleAddItem}
-                  onDeleteItem={handleDeleteItem}
-                  onUpdateItem={handleUpdateItem}
                   onUpdateCard={handleUpdateCard}
                 />
               ))

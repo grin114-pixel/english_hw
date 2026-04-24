@@ -9,7 +9,17 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="영문학당" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-    <link id="pwa-manifest" rel="manifest" href="/manifest.webmanifest" />
+    <script>
+      (function () {
+        const isKids = window.location.pathname.startsWith('/kids')
+        const href = isKids ? '/manifest-kids.webmanifest' : '/manifest.webmanifest'
+        const link = document.createElement('link')
+        link.rel = 'manifest'
+        link.href = href
+        link.id = 'pwa-manifest'
+        document.head.appendChild(link)
+      })()
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
